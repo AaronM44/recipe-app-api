@@ -13,7 +13,7 @@ RUN python -m venv /py && \
 # upgrade pip in the venv
     /py/bin/pip install --upgrade pip && \
 # install requirements file
-    /py/bin/pip intall -r /tmp/requirements.txt && \
+    /py/bin/pip install -r /tmp/requirements.txt && \
 # remove tmp directory
     rm -rf /tmp && \
 # add a new user for django with no password or home dir
