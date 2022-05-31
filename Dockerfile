@@ -14,6 +14,11 @@ ARG DEV=false
 RUN python -m venv /py && \
 # upgrade pip in the venv
     /py/bin/pip install --upgrade pip && \
+# install postgres client (needed for psycopg2)
+    apk add --update --no-cache postgresql-client && \
+# install temporary build dependencies for (psycopg2)
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base postgresql-dev musl-dev && \
 # install requirements file
     /py/bin/pip install -r /tmp/requirements.txt && \
 # if running dev then install requirements.dev.txt
@@ -22,6 +27,7 @@ if [ $DEV = "true" ]; \
 fi && \
 # remove tmp directory
     rm -rf /tmp && \
+    apk del .tmp-build-deps && \
 # add a new user for django with no password or home dir
     adduser \
         --disabled-password \
